@@ -6,6 +6,56 @@
 
 This is SW Experiment 3 course's 3rd Project
 
+********************Protocol*********************
+Rental_:<UserID>,<ID>
+  >OK
+  >Fail : <Reason>
+Return_:<UserID>,<ID>
+  >OK
+InsertB:<ID>,<Name>,<Writer>,<Publisher>,<PublicationDate>,<Group>,<Page>,<ISBN>
+  >OK
+  >Fail : <Reason> (Reason: ID가 겹쳤을 때)
+InsertM:<Name>,<Phone>,<Email>,<Address>,<Grade>
+  >OK : <UserID>
+  >Fail : <Reason> (Reason: 폰번이 겹쳤을 때)
+DeleteB:<ID>
+  >OK
+  >Fail : <Reason>
+DeleteM:<UserID>
+  >OK
+  >Fail : <Reason>
+SearchB:<조건>
+  >Proper String
+  >Fail : <Reason>
+SearchM:<조건>
+  >Proper String
+  >Fail : <Reason>
+UpdateB: 없음
+UpdateM:N,<ID>,<NewName>
+UpdateM:P,<ID>,<NewPhone>
+UpdateM:E,<ID>,<NewEmail>
+UpdateM:A,<ID>,<NewAddr>
+  >OK
+  >Fail : <Reason> (ID가 없다거나)
+UpGrade:<ID>
+  >OK
+  >Fail : <Reason> (이미 최고 등급일때?)
+
+InsertR:<BookName>,<Grade>,<Review>
+  >OK
+  >Fail : <Reason> 
+GetRevB:<BookName> (그 책이름에 대해 Review다 줘요)
+  >Proper String
+  >No Review
+GetArgB:<BookName> (그 책이름에 대해 Grade평균을 줘요)
+  >Average : <average>
+  >No Review
+GetRank:NULL
+  >Proper String
+  
+
+
+
 Book(
 int           ID              //Server에서만 관리
 varchar[100]  Name
