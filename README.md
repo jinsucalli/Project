@@ -8,15 +8,15 @@ This is SW Experiment 3 course's 3rd Project
 
 ********************Protocol*********************
 
-Rental_:<UserID>,<ID>   //ex) Rental_:15,12
+Rental_:<UserID>|<ID>   //ex) Rental_:15,12
   >OK
   >Fail : <Reason>
-Return_:<UserID>,<ID>
+Return_:<UserID>|<ID>
   >OK
-InsertB:<ID>,<Name>,<Writer>,<Publisher>,<PublicationDate>,<Categoty>,<Page>,<ISBN>
+InsertB:<ID>|<Name>|<Writer>|<Publisher>|<PublicationDate>|<Categoty>|<Page>|<ISBN>
   >OK
   >Fail : <Reason> (Reason: ID가 겹쳤을 때)
-InsertM:<Name>,<Phone>,<Email>,<Address>,<Grade>
+InsertM:<Name>|<Phone>|<Email>|<Address>|<Grade>
   >OK : <UserID>
   >Fail : <Reason> (Reason: 폰번이 겹쳤을 때)
 DeleteB:<ID>
@@ -32,17 +32,17 @@ SearchM:<조건>
   >Proper String
   >Fail : <Reason>
 UpdateB: 없음
-UpdateM:N,<ID>,<NewName>
-UpdateM:P,<ID>,<NewPhone>
-UpdateM:E,<ID>,<NewEmail>
-UpdateM:A,<ID>,<NewAddr>
+UpdateM:N|<ID>|<NewName>
+UpdateM:P|<ID>|<NewPhone>
+UpdateM:E|<ID>|<NewEmail>
+UpdateM:A|<ID>|<NewAddr>
   >OK
   >Fail : <Reason> (ID가 없다거나)
 UpGrade:<ID>
   >OK
   >Fail : <Reason> (이미 최고 등급일때?)
 
-InsertR:<BookName>,<Grade>,<Review>
+InsertR:<BookName>|<Grade>|<Review>
   >OK
   >Fail : <Reason> 
 GetRevB:<BookName> (그 책이름에 대해 Review다 줘요)
@@ -53,7 +53,6 @@ GetArgB:<BookName> (그 책이름에 대해 Grade평균을 줘요)
   >No Review
 GetRank:NULL
   >Proper String
-  
 
 
 
