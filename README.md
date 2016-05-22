@@ -7,12 +7,13 @@
 This is SW Experiment 3 course's 3rd Project
 
 ********************Protocol*********************
-Rental_:<UserID>,<ID>
+
+Rental_:<UserID>,<ID>   //ex) Rental_:15,12
   >OK
   >Fail : <Reason>
 Return_:<UserID>,<ID>
   >OK
-InsertB:<ID>,<Name>,<Writer>,<Publisher>,<PublicationDate>,<Group>,<Page>,<ISBN>
+InsertB:<ID>,<Name>,<Writer>,<Publisher>,<PublicationDate>,<Categoty>,<Page>,<ISBN>
   >OK
   >Fail : <Reason> (Reason: ID가 겹쳤을 때)
 InsertM:<Name>,<Phone>,<Email>,<Address>,<Grade>
@@ -25,7 +26,7 @@ DeleteM:<UserID>
   >OK
   >Fail : <Reason>
 SearchB:<조건>
-  >Proper String
+  >Proper String //<ID> <Name> <Writer> <Publisher>..같은 형식으로 띄워쓰기로 구분하고 한권에 한줄
   >Fail : <Reason>
 SearchM:<조건>
   >Proper String
@@ -56,13 +57,13 @@ GetRank:NULL
 
 
 
-Book(
+Book(           //Use _ instead ' '; ex) Book name : C++ Library (X) C++_Library
 int           ID              //Server에서만 관리
 varchar[100]  Name
 varchar[50]   Writer
 varchar[50]   Publisher
 int           PublicationDate //ex)20090205
-********varchar[50]   Group ********* needed to modify >> name 'group' cannot be in sqlite
+varchar[50]  Category
 int           Page
 varchar[16]   ISBN
 
