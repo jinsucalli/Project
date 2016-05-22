@@ -62,7 +62,7 @@ varchar[100]  Name
 varchar[50]   Writer
 varchar[50]   Publisher
 int           PublicationDate //ex)20090205
-varchar[50]   Group
+********varchar[50]   Group ********* needed to modify >> name 'group' cannot be in sqlite
 int           Page
 varchar[16]   ISBN
 
