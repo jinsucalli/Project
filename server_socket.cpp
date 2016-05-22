@@ -1,4 +1,5 @@
 #include "server_socket.h"
+#include "dbinterface.h"
 
 int main(void)
 {
@@ -9,6 +10,13 @@ int main(void)
 	serversocket.Create();
 	serversocket.Bind();
 	serversocket.Listen();
+
+	DBinterface LibraryDB;
+	LibraryDB.open("library.db");
+	LibraryDB.select_all();
+
+
+
 	while(1)
 	{
 	serversocket.Accept();
