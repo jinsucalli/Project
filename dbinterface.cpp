@@ -110,6 +110,7 @@ int DBinterface::Open(const char* DBname)
 	else cout << "Open Success!" << endl;
 
 
+
 	string temp("select count(*) from member");
 	ret = sqlite3_prepare_v2(aDB, temp.c_str(), -1, &aStmt, NULL);
 
@@ -119,9 +120,19 @@ int DBinterface::Open(const char* DBname)
 	else {
 		ret = sqlite3_step(aStmt);
 		aMemberNextId = (int)sqlite3_column_int(aStmt, 0) + 1;
-
-
 		cout << "total Member number: " << aMemberNextId-1 << endl;
+	}
+
+	temp = "select id from member order by id desc limit 1";
+	ret = sqlite3_prepare_v2(aDB, temp.c_str(), -1, &aStmt, NULL);
+
+	  if (ret != SQLITE_OK) {
+	    cout << "Server has Error in Member data\n";
+	  }
+	else {
+		ret = sqlite3_step(aStmt);
+		aMemberNextId = (int)sqlite3_column_int(aStmt, 0) + 1;
+		cout << "Biggest Member id: " << aMemberNextId-1 << endl;
 	}
 
 	return 0;
@@ -216,18 +227,53 @@ int DBinterface:: InsertBook(string buffer)
 int DBinterface:: InsertMember(string buffer)
 {
 	int pos;
-	string temp("insert into member(name, phone, email, address, grade) values(");
+	int findgradecount = 0;
+	string gradevalue;
+	int grade=0;
+
+	string temp("insert into member(id, name, phone, email, address, grade, bookrentalperiod, bookrentallimit, bookrentalcurrent) values(");
+	temp.append(to_string(aMemberNextId));
+	temp.append(", ");
 	temp.append(buffer);
-	temp.append(")");
+	//temp.append(")");
+
 
 	while(1)
 	{
+		findgradecount++;
 		pos = temp.find('|');
 		if(pos == string::npos) break;
+		else if(findgradecount==4){
+			gradevalue = temp.substr(pos+1,string::npos);
+		}
 		temp.replace(pos,1,",");
 	}
 
+	grade = stoi(gradevalue);
 
+	if(grade < 1 || grade > 5){
+		cout << "Error in grade value" << endl;
+		aOutput = "Fail to Insert --- Wrong grade Number (1< grade <5)";
+		return 0;
+	}
+	else if(grade == 1){
+		temp.append(",1,1,1)");
+	}
+	else if(grade == 2){
+		temp.append(",2,2,2)");
+	}
+	else if(grade == 3){
+		temp.append(",3,3,3)");
+	}
+	else if(grade == 4){
+		temp.append(",4,4,4)");
+	}
+	else if(grade == 5){
+		temp.append(",5,5,5)");
+	}
+
+	cout << "query : " << temp << endl; 
+	
 	if(sqlite3_prepare(aDB, temp.c_str(), -1, &aStmt, NULL) != SQLITE_OK)
 	{
 		cout << "fail prepare" << endl;
@@ -242,7 +288,9 @@ int DBinterface:: InsertMember(string buffer)
 		return 0;
 	}
 
-	aOutput = "Success to Insert!";
+	aOutput = "Success! Your ID is ";
+	aOutput.append(to_string(aMemberNextId));
+	aMemberNextId++;
 	return 0;
 }
 
