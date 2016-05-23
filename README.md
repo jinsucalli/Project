@@ -74,7 +74,7 @@ int           RentalNumber  //몇번이나 대출되었는지
 
 Review(
 varchar[100]  BookName
-int           Grade
+int           Grade //1~5점의 평점
 varchar[100]  review
 )
 
