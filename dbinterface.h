@@ -3,7 +3,7 @@
 #include<cstdlib>
 #include<assert.h>
 #include <string.h>
-
+#include <fstream>
 using namespace std;
 
 class DBinterface
@@ -11,15 +11,14 @@ class DBinterface
 	private:
 		sqlite3 *aDB;
 		sqlite3_stmt *aStmt;
-		char aStr[100];
-		int aColumns;
 		string aOutput;
 		int aMemberNextId;
+		int aToday;
 	public:
 		DBinterface();
 		int InputBuffer(string);
 		int Open(const char *);
-		int Select_all();
+		//int Select_all();
 
 		int InsertBook(string);
 		int InsertReview(string);
@@ -35,10 +34,16 @@ class DBinterface
 		int DeleteMember(string);
 
 		int GetRank();
-		
+		int Upgrade(string);
+	
+		int Rental(string);
+		int Return(string);
+
+		int UpdateMember(string);
+
 		string GetOutput();
-		void SetStr(const char *);
-		void SetColumns(int);
+		void SetToday(int);
 
 };
 
+int CalculateDate (int CurrentDate, int period);

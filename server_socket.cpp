@@ -12,12 +12,11 @@ int main(void)
 	serversocket.Listen();
 
 	DBinterface LibraryDB;
-	LibraryDB.Open("library.db");
-	//LibraryDB.Select_all();
-/*
-	string ask;
-	cin >> ask;
-	LibraryDB.InputBuffer(ask);*/
+	if (LibraryDB.Open("library.db")) {
+		cout << "Fail to Open library.db" << endl;
+		return 0;
+	}
+	
 	while(1)
 	{
 
@@ -25,10 +24,10 @@ int main(void)
 	serversocket.Receive();
 
 
-	cout<<serversocket.GetReceiveBuf()<<endl;
+	cout<<"From Client: "<<serversocket.GetReceiveBuf()<<endl;
 	LibraryDB.InputBuffer(serversocket.GetReceiveBuf());
 
-	cout << LibraryDB.GetOutput()<<endl;
+	cout <<"Server Return: "<<LibraryDB.GetOutput()<<endl;
 	//strcpy(buf,"Proper Response");
 	serversocket.SetSendBuf( LibraryDB.GetOutput() );
 	serversocket.Send();
