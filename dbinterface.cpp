@@ -6,6 +6,11 @@ DBinterface:: DBinterface()
 	aStmt 	= 0;
 }
 
+/*
+	@param : raw data of String from client
+	@brief : it is first control about input
+			call proper function at each cases.
+*/
 int DBinterface:: InputBuffer(string buffer)
 {
 	char 	temp[8];
@@ -63,6 +68,12 @@ int DBinterface:: InputBuffer(string buffer)
 	return 0;
 }
 
+/*
+	@brief : when DBinterface is started, it must do first
+		open DB, initialize, setting Today.
+	@return : if fail return 1
+			, success 0
+*/
 int DBinterface::Open(const char* DBname)
 {
 	int 		ret;
@@ -119,6 +130,12 @@ int DBinterface::Open(const char* DBname)
 	return 0;
 }
 
+/*
+	@brief : insert book
+			it check duplication of 'book ID'
+	@param : <id>|<name>|<writer>|<publisher>|<publicationdate>
+			|<category>|<page>|<isbn>
+*/
 int DBinterface:: InsertBook(string buffer)
 {
 	int 	pos;
@@ -167,7 +184,12 @@ int DBinterface:: InsertBook(string buffer)
 	return 0;
 }
 
-
+/*
+	@brief : insert member
+			it check duplication of 'phone number'
+	@param : <id>|<name>|<writer>|<publisher>|<publicationdate>
+			|<category>|<page>|<isbn>
+*/
 int DBinterface:: InsertMember(string buffer)
 {
 	int 	pos;
@@ -264,6 +286,10 @@ int DBinterface:: InsertMember(string buffer)
 	return 0;
 }
 
+/*
+	@brief : insert review
+	@param : <bookname>|<grade>|<review>
+*/
 int DBinterface::InsertReview(string buffer)
 {
 	int	pos;
@@ -293,7 +319,11 @@ int DBinterface::InsertReview(string buffer)
 	return 0;
 }
 
-
+/*
+	@brief  : search book by condition
+	@param  : <condition>	ex) name='Book_name'
+	@return : all data set of book(s)
+*/
 int DBinterface::SearchBook(string buffer)
 {
 	int 	ret;
@@ -354,7 +384,10 @@ int DBinterface::SearchBook(string buffer)
 	return 0;
 }
 
-
+/*
+	@brief  : search review by bookname
+	@param : <bookname>
+*/
 int DBinterface::SearchReview(string buffer)
 {
 	int 	ret;
@@ -415,7 +448,10 @@ int DBinterface::SearchReview(string buffer)
 	return 0;
 }
 
-
+/*
+	@brief  : search member by condition
+	@param : <condition>
+*/
 int DBinterface::SearchMember(string buffer)
 {
 	int 	ret;
@@ -476,7 +512,10 @@ int DBinterface::SearchMember(string buffer)
 	return 0;
 }
 
-
+/*
+	@brief : get average grade of review at one book
+	@param : <condition>
+*/
 int DBinterface::GetAvgReview(string buffer)
 {
 	int 	ret;
@@ -519,6 +558,11 @@ int DBinterface::GetAvgReview(string buffer)
 	return 0;
 }
 
+/*
+	@brief : delete book
+			it make release member's rental condition
+	@param : <id>
+*/
 int DBinterface:: DeleteBook(string buffer)
 {
 	string 	temp;
@@ -597,6 +641,11 @@ int DBinterface:: DeleteBook(string buffer)
 	return 0;
 }
 
+/*
+	@brief : delete member
+			it make release book's rental condition
+	@param : <id>
+*/
 int DBinterface:: DeleteMember(string buffer)
 {
 	string	temp;
@@ -650,6 +699,10 @@ int DBinterface:: DeleteMember(string buffer)
 	return 0;
 }
 
+/*
+	@brief  : get rank of book
+	@Return : 10 Books' name of Most Rentaled
+*/
 int DBinterface:: GetRank()
 {
 	int 	count;
@@ -685,6 +738,12 @@ int DBinterface:: GetRank()
 	return 0;
 }
 
+/*
+	@brief  : upgrade 'grade' of member
+			it change rental period, rental limit
+			it check it's pre-grade(<5)
+	@param : <id>
+*/
 int DBinterface:: Upgrade(string buffer)
 {
 	int 	ret;
@@ -745,6 +804,16 @@ int DBinterface:: Upgrade(string buffer)
 	return 0;
 }
 
+/*
+	@brief : rental a book by a member
+			it check book ID & member ID
+			if member has late any books
+				he cannot rental
+			it setting rental date & return date
+	@param : <id>|<bookid>
+	@return : fail or success
+			and return date
+*/
 int DBinterface:: Rental(string buffer)
 {
 	int 	pos;
@@ -795,6 +864,26 @@ int DBinterface:: Rental(string buffer)
 		aOutput = "Fail to Rental --- Current Rental > Limit";
 		return 0;
 	}
+
+	temp = "select name from book where rentalid = ";
+	temp.append(member_id);
+	temp.append(" and returndate < ");
+	temp.append(to_string(aToday));
+	ret = sqlite3_prepare_v2(aDB, temp.c_str(), -1, &aStmt, NULL);
+cout << temp<<endl;
+	if (ret != SQLITE_OK) {
+		aOutput = "Error in Rental --- Wrong Input";
+		return 0;
+	}
+	else {
+		ret = sqlite3_step(aStmt);
+		if (ret == SQLITE_ROW) {
+			aOutput = "Fail to Rental --- You need to return : ";
+			aOutput.append((const char *)sqlite3_column_text(aStmt, 0));
+			return 0;
+		}
+	}
+
 
 	temp = "select rentalid, rentalnumber from book where id =";
 	temp.append(book_id);
@@ -855,10 +944,18 @@ int DBinterface:: Rental(string buffer)
 		sqlite3_step(aStmt);
 	}
 
-	aOutput = "Success to Rental";
+	aOutput = "Success to Rental: return date is ";
+	aOutput.append(to_string(CalculateDate(aToday, rental_period)));
 	return 0;
 }
 
+/*
+	@brief : return a book by a member
+			it check book ID & member ID
+				book is rentaled
+				member has rentaled
+	@param : <id>|<bookid>
+*/
 int DBinterface:: Return(string buffer)
 {
 	int 	pos;
@@ -957,7 +1054,12 @@ int DBinterface:: Return(string buffer)
 	aOutput = "Success to Return";
 	return 0;
 }
-
+/*
+	@brief : update a member's data
+			name, phone, email, address
+	@param : Q<id>|<newvalue>
+			Q : (N)ame, (P)hone, (E)mail, (A)ddress
+*/
 int DBinterface:: UpdateMember(string buffer)
 {
 	char 	column[2];
@@ -1037,6 +1139,13 @@ void DBinterface:: SetToday(int value)
 	aToday = value;
 }
 
+/*
+	@brief : calculate return date
+			using today & rental period
+	@param : aToday of DBinterface, rental period of member 
+	@return : date
+			ex) 20160529
+*/
 int CalculateDate (int CurrentDate, int period)
 {
 	int Year = CurrentDate/10000;
