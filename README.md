@@ -54,6 +54,20 @@ GetArgB:<BookName> (그 책이름에 대해 Grade평균을 줘요)
 GetRank:NULL
   >Proper String
 
+InsertD:<ID>|<Name>|<Writer>|<Publisher>|<PublicationDate>|<Category>
+DeleteD:<ID>
+SearchD:<조건>
+InserDR:<MultiMediaName>|<Grade>|<Review>
+GetRevD:<MultiMediaName>
+GetAvgD:<MultiMediaName>
+
+InsertP:<ID>|<Name>|<Writer>|<PublicationDate>|<Project>
+DeleteP:<ID>
+SearchP:<조건>
+InserPR:<PaperName>|<Grade>|<Review>
+GetRevP:<PaperName>
+GetAvgP:<PaperName>
+
 
 
 Book(           //Use _ instead ' '; ex) Book name : C++ Library (X) C++_Library
