@@ -58,9 +58,11 @@ InsertD:<ID>|<Name>|<Writer>|<Publisher>|<PublicationDate>|<Category>
 DeleteD:<ID>
 SearchD:<조건>
 
+
 InsertP:<ID>|<Name>|<Writer>|<PublicationDate>|<Project>
 DeleteP:<ID>
 SearchP:<조건>
+
 
 
 
