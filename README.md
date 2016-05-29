@@ -57,16 +57,10 @@ GetRank:NULL
 InsertD:<ID>|<Name>|<Writer>|<Publisher>|<PublicationDate>|<Category>
 DeleteD:<ID>
 SearchD:<조건>
-InserDR:<MultiMediaName>|<Grade>|<Review>
-GetRevD:<MultiMediaName>
-GetAvgD:<MultiMediaName>
 
 InsertP:<ID>|<Name>|<Writer>|<PublicationDate>|<Project>
 DeleteP:<ID>
 SearchP:<조건>
-InserPR:<PaperName>|<Grade>|<Review>
-GetRevP:<PaperName>
-GetAvgP:<PaperName>
 
 
 
