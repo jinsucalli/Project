@@ -1,13 +1,9 @@
 CC = g++
-PROG = server
-#OBJS = server.o
-SOURCE = server_socket.cpp dbinterface.cpp 
+PROG = client
+SOURCE = client.cpp client_socket.cpp
 
 $(PROG):$(SOURCE)
-	$(CC) -std=c++11 -g -o $(PROG) $(SOURCE) -L/usr/local/sqlite/lib -lsqlite3
+		  $(CC) -std=c++11 -g -o $(PROG) $(SOURCE)
 
 clean:
-	rm server
-
-do:$(PROG)
-	./server
+	rm client

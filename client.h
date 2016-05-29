@@ -11,6 +11,7 @@
 #include <arpa/inet.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <fstream>
 using namespace std;
 
 #include "client_socket.h"
@@ -18,7 +19,7 @@ using namespace std;
 	#define ASSERT(X)				\
 	{								\
 		if(!(X)){					\
-			cout<<"ASSERT : FILE "<<__FILE__<<", LINE "<<__LINE__<<endl;							   \
+			cout<<"ASSERT : FILE "<<__FILE__<<", LINE "<<__LINE__<<endl;\
 		while(1){}					\
 		}							\
 	}								
@@ -26,6 +27,10 @@ using namespace std;
 	#define ASSERT(X) ((void)0)		
 #endif
 
+/**
+  *@brief Class for Client Program.
+  		  Almost of Client Class is user interface.
+*/
 class Client
 {
 	private:
@@ -42,6 +47,8 @@ class Client
 		void Rental();
 		void Return();
 		bool BookQuery();
+		bool MediaQuery();
+		bool PaperQuery();
 		bool MemberQuery();
 		bool ReviewQuery();
 		
@@ -54,11 +61,25 @@ class Client
 		void GetReviewBook();
 		void GetAverageBook();
 
+		void InsertMedia();
+		void DeleteMedia();
+		void SearchMedia();
+
+		void InsertPaper();
+		void DeletePaper();
+		void SearchPaper();
+
 		void InsertMember();
 		void DeleteMember();
 		void SearchMember();
 		bool UpdateMember();
 			
+		void InsertBookFromFile();
+		void InsertMediaFromFile();
+		void InsertPaperFromFile();
+		void InsertMemberFromFile();
+		void InsertReviewFromFile();
+		
 		void Networking();
 
 };
