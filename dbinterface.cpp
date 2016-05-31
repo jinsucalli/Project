@@ -528,6 +528,7 @@ int DBinterface::GetAvgReview(string buffer)
 
 	total	= 0;
 	number	= 0;
+	aOutput.clear();
 
 	temp = "select grade from review where bookname = ";
 	temp.append(buffer);

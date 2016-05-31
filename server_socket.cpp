@@ -4,9 +4,19 @@
 
 int main(void)
 {
-	char buf[20000];
-	ServerSocket serversocket;
-	serversocket.SetPort(8000);
+	int 		port_number;
+	string		ip_number;
+	char 		buf[20000];
+	ServerSocket 	serversocket;
+
+	cout << "IP : ";
+	cin >> ip_number;
+
+	cout << "Insert Port Number : ";
+	cin >> port_number;
+
+	serversocket.SetServerIP(ip_number.c_str());
+	serversocket.SetPort(port_number);
 
 	serversocket.Create();
 	serversocket.Bind();
